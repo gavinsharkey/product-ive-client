@@ -5,6 +5,7 @@ import { checkLoggedInStatus } from './actions/userActions'
 import LoginScreen from './pages/LoginPage'
 import WelcomePage from './pages/WelcomePage';
 import SignupPage from './pages/SignupPage'
+import DashboardPage from './pages/DashboardPage'
 
 const App: React.FC = () => {
   const dispatch = useDispatch()
@@ -14,13 +15,12 @@ const App: React.FC = () => {
   })
 
   return (
-    <>
-      <Switch>
-        <Route exact path="/" component={WelcomePage} />
-        <Route exact path="/login" component={LoginScreen} />
-        <Route exact path="/signup" component={SignupPage} />
-      </Switch>
-    </>
+    <Switch>
+      <Route exact path="/" component={WelcomePage} />
+      <Route exact path="/login" component={LoginScreen} />
+      <Route exact path="/signup" component={SignupPage} />
+      <Route exact path="/dashboard" component={DashboardPage} />
+    </Switch>
   );
 }
 

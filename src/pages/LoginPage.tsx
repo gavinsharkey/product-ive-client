@@ -1,28 +1,45 @@
-import React from 'react'
-import { Form, Input, Divider, Typography, Button } from 'antd'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { Form, Input, Divider, Typography, Button, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, RouteComponentProps } from 'react-router-dom'
+import { login } from '../actions/userActions'
 import RegistrationWrapper from '../components/RegistrationWrapper' 
+import { UserState, UserThunkDispatch } from '../types/userTypes';
 
 const { Title, Text, Link } = Typography
 
-interface LoginFormValues {
+export interface LoginValues {
   username: string,
   password: string
 }
 
-const LoginPage: React.FC = () => {
-  const [form] = Form.useForm()
+interface Props extends RouteComponentProps {
+  login: (values: LoginValues) => Promise<any>
+  isLoggedIn: boolean
+}
 
-  const onFinish = (values: LoginFormValues): void => {
-    console.log(values)
+const LoginPage = (props: Props): JSX.Element => {
+  useEffect(() => {
+    if (props.isLoggedIn) {
+      props.history.replace('/dashboard')
+    }
+  }, [props.isLoggedIn, props.history])
+
+  const onFinish = (values: LoginValues): void => {
+    props.login(values)
+    .then(data => {
+      if (data.error) {
+        message.error(data.error, 3)
+      }
+    })
   }
 
   return (
     <RegistrationWrapper>
       <Title>Log In</Title>
       <Divider />
-      <Form form={form} name="login" colon onFinish={onFinish}>
+      <Form name="login" colon onFinish={onFinish}>
         <Form.Item
           label="Email"
           name="email"
@@ -49,4 +66,16 @@ const LoginPage: React.FC = () => {
   )
 }
 
-export default LoginPage
+const mapStateToProps = (state: UserState) => {
+  return {
+    isLoggedIn: state.isLoggedIn
+  }
+}
+
+const mapDispatchToProps = (dispatch: UserThunkDispatch) => {
+  return {
+    login: (values: LoginValues) => dispatch(login(values))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
