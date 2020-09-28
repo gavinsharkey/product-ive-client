@@ -1,25 +1,23 @@
 import React from 'react'
 import { Row, Col, Divider, Typography, Button } from 'antd'
-import { useHistory } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import RegistrationWrapper from '../components/RegistrationWrapper'
 
 const { Title, Paragraph, Link } = Typography
 
-const WelcomePage: React.FC = () => {
-  const history = useHistory()
-
+const WelcomePage = (props: RouteComponentProps): JSX.Element => {
   const handleLink = (route: string): void => {
-    history.push(route)
+    props.history.push(route)
   }
 
   return (
     <RegistrationWrapper boxStyle={{width: '80%'}}>
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col span={16}>
-          <Title> Welcome to Product.ive</Title>
+          <Title> Welcome to Product.iv</Title>
           <Divider orientation="left">About</Divider>
           <Paragraph>
-            Product.ive is a lightweight and intuitive productivity app to help you keep track of all your
+            Product.iv is a lightweight and intuitive productivity app to help you keep track of all your
             daily tasks, notes, and more! Use it to:
           </Paragraph>
           <ul>
