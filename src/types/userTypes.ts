@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux'
-import { ThunkAction } from 'redux-thunk'
+import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 // general types
 export interface User {
   display_name: string
@@ -9,14 +9,14 @@ export interface User {
   updated_at?: string
 }
 
-export type Error = string | string[]
+export type UserError = string | string[]
 
 // state
 export interface UserState {
   user: User | {}
   status: 'loading' | 'error' | 'ok'
   isLoggedIn: boolean
-  error: Error
+  error: UserError
 }
 
 // actions
@@ -31,14 +31,20 @@ interface LoadingUserAction {
 
 interface ErrorLoadingUserAction {
   type: 'ERROR_LOADING_USER',
-  payload: Error
+  payload: UserError
 }
 
 export type UserActionTypes = SetUserAction | LoadingUserAction | ErrorLoadingUserAction
 
 // thunk
-export type UserThunk<ReturnType = void> = ThunkAction<
+export type UserThunk<ReturnType> = ThunkAction<
   ReturnType,
+  UserState,
+  unknown,
+  AnyAction
+>
+
+export type UserThunkDispatch = ThunkDispatch<
   UserState,
   unknown,
   AnyAction
