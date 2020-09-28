@@ -6,11 +6,11 @@ interface Request {
     'Authorization': string
     'Content-Type'?: string
   },
-  body?: object | FormData
+  body?: string
 }
 
 export const fetchWithAuth = async (
-  url: string, method: APIMethod, body?: object | FormData
+  url: string, method: APIMethod, body?: object
   ): Promise<any> => {
     const token = localStorage.getItem('_product_ive_token')
 
@@ -23,7 +23,7 @@ export const fetchWithAuth = async (
 
     if ( method !== 'GET' && method !== 'DELETE' ) {
       request.headers['Content-Type'] = 'application/json'
-      request.body = body
+      request.body = JSON.stringify(body)
     }
 
     const response = await fetch(url, request as object)
