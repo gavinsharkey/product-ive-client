@@ -1,8 +1,9 @@
-/* .dashboard-header {
+.dashboard-header {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-} */
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
 .dashboard-header .ant-typography {
   color: #fff;

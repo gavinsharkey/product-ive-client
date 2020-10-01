@@ -8,9 +8,10 @@ const { Title } = Typography
 
 interface DashboardHeaderProps {
   handleLink: (route: string) => void
+  handleLogout: () => void
 }
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({handleLink}) => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = ({handleLink, handleLogout}) => {
   return (
     <Header className="dashboard-header">
       <Space size="large">
@@ -19,6 +20,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({handleLink}) => {
         <Button onClick={() => handleLink("/notes")} type="primary">Notes</Button>
         <Button onClick={() => handleLink('/todos')} type="primary">Todos</Button>
       </Space>
+      <Button onClick={handleLogout} type="primary" style={{alignSelf: 'flex-end'}}>Logout</Button>
     </Header>
   )
 }
