@@ -1,0 +1,10 @@
+/* .dashboard-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+} */
+
+.dashboard-header .ant-typography {
+  color: #fff;
+  margin-bottom: 0px;
+}
