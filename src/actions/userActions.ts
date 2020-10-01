@@ -16,6 +16,11 @@ export const errorLoadingUser = (errors: UserError): UserActionTypes => {
   return { type: 'ERROR_LOADING_USER', payload: errors }
 }
 
+export const logout = (): UserActionTypes => {
+  localStorage.removeItem('_product_ive_token')
+  return {type: 'LOGOUT_USER'}
+}
+
 export const checkLoggedInStatus = (): UserThunk<void> => {
   return dispatch => {
     dispatch(loadingUser())

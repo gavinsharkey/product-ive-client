@@ -35,7 +35,15 @@ interface ErrorLoadingUserAction {
   payload: UserError
 }
 
-export type UserActionTypes = SetUserAction | LoadingUserAction | ErrorLoadingUserAction
+interface LogoutUserAction {
+  type: 'LOGOUT_USER'
+}
+
+export type UserActionTypes = 
+  | SetUserAction 
+  | LoadingUserAction 
+  | ErrorLoadingUserAction 
+  | LogoutUserAction
 
 // thunk
 export type UserThunk<ReturnType> = ThunkAction<

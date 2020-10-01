@@ -31,6 +31,12 @@ export default (
         isLoggedIn: false,
         error: action.payload
       }
+    case 'LOGOUT_USER':
+      return {
+        ...state,
+        user: {},
+        isLoggedIn: false
+      }
     default:
       return state
   }
