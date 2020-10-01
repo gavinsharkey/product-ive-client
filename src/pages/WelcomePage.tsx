@@ -5,7 +5,7 @@ import RegistrationWrapper from '../components/RegistrationWrapper'
 
 const { Title, Paragraph, Link } = Typography
 
-const WelcomePage = (props: RouteComponentProps): JSX.Element => {
+const WelcomePage: React.FC<RouteComponentProps> = (props) => {
   const handleLink = (route: string): void => {
     props.history.push(route)
   }

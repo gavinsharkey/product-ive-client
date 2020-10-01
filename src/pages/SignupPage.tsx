@@ -20,7 +20,7 @@ interface Props extends RouteComponentProps {
   isLoggedIn: boolean
 }
 
-const SigninPage = (props: Props): JSX.Element => {
+const SigninPage: React.FC<Props> = (props) => {
   useEffect(() => {
     if (props.isLoggedIn) {
       props.history.replace('/dashboard')
