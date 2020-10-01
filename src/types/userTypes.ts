@@ -2,8 +2,9 @@ import { AnyAction } from 'redux'
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 // general types
 export interface User {
-  display_name: string
-  email: string
+  id?: number
+  display_name?: string
+  email?: string
   password_digest?: string
   created_at?: string
   updated_at?: string
@@ -13,7 +14,7 @@ export type UserError = string | string[]
 
 // state
 export interface UserState {
-  user: User | {}
+  user: User
   status: 'loading' | 'error' | 'ok'
   isLoggedIn: boolean
   error: UserError
