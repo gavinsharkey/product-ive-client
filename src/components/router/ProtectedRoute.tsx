@@ -5,8 +5,9 @@ import { UserState } from '../../types/userTypes'
 
 const ProtectedRoute = (props: RouteProps): JSX.Element => {
   const isLoggedIn = useSelector((state: UserState) => state.isLoggedIn)
+  const status = useSelector((state: UserState) => state.status)
 
-  if (!isLoggedIn) {
+  if (status === "ok" && !isLoggedIn) {
     return <Redirect to="/" />
   }
 
