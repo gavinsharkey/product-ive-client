@@ -20,7 +20,7 @@ const App: React.FC = () => {
       <Route exact path="/" component={WelcomePage} />
       <Route exact path="/login" component={LoginScreen} />
       <Route exact path="/signup" component={SignupPage} />
-      <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
+      <ProtectedRoute path="/dashboard" component={DashboardPage} />
     </Switch>
   );
 }
