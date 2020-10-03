@@ -4,13 +4,13 @@ import { ContentProps } from '../../../types/dashboardContentTypes'
 
 const { Sider, Content } = Layout
 
-const NotesContent: React.FC<ContentProps> = (props) => {
+const TodosRoute: React.FC<ContentProps> = (props) => {
   return (
     <>
-      <Sider></Sider>
-      <Content></Content>
+      <Sider className="sider-navigation" collapsible></Sider>
+      <Content>Todos</Content>
     </>
   )
 }
 
-export default NotesContent
+export default TodosRoute

@@ -5,9 +5,9 @@ import { Layout } from 'antd'
 import { UserState } from '../types/userTypes'
 import { logout } from '../actions/userActions'
 import DashboardHeader from '../components/dashboard/header/DashboardHeader'
-import NotesContent from '../components/dashboard/content/NotesContent'
-import TodosContent from '../components/dashboard/content/TodosContent'
-import DefaultContent from '../components/dashboard/content/DefaultContent'
+import NotesRoute from '../components/dashboard/routes/NotesRoute'
+import TodosRoute from '../components/dashboard/routes/TodosRoute'
+import DefaultRoute from '../components/dashboard/routes/DefaultRoute'
 
 const { Footer } = Layout
 
@@ -32,13 +32,13 @@ const DashboardPage: React.FC<RouteComponentProps> = (props) => {
         <Layout>
           <Switch>
             <Route exact path={path}>
-              <DefaultContent userId={id} />
+              <DefaultRoute userId={id} />
             </Route>
             <Route path={`${path}/notes`}>
-              <NotesContent userId={id} />
+              <NotesRoute userId={id} />
             </Route>
             <Route path={`${path}/todos`}>
-              <TodosContent userId={id} />
+              <TodosRoute userId={id} />
             </Route>
             <Route path={`${path}/:else`}>
               <Redirect to={path} />
