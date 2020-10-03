@@ -1,10 +1,9 @@
 import React from 'react'
 import { Layout } from 'antd'
-import { ContentProps } from '../../../types/dashboardContentTypes'
 
 const { Sider, Content } = Layout
 
-const TodosRoute: React.FC<ContentProps> = (props) => {
+const TodosRoute: React.FC = (props) => {
   return (
     <>
       <Sider className="sider-navigation" collapsible></Sider>

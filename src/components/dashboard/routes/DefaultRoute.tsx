@@ -1,11 +1,9 @@
 import React from 'react'
 import { Layout } from 'antd'
-import { ContentProps } from '../../../types/dashboardContentTypes'
-import { RouteComponentProps } from 'react-router-dom'
 
 const { Sider, Content } = Layout
 
-const DefaultRoute: React.FC<ContentProps> = (props) => {
+const DefaultRoute: React.FC = (props) => {
   return (
     <>
       <Content>Default</Content>

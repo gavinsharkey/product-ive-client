@@ -32,13 +32,13 @@ const DashboardPage: React.FC<RouteComponentProps> = (props) => {
         <Layout>
           <Switch>
             <Route exact path={path}>
-              <DefaultRoute userId={id} />
+              <DefaultRoute/>
             </Route>
             <Route path={`${path}/notes`}>
-              <NotesRoute userId={id} />
+              <NotesRoute/>
             </Route>
             <Route path={`${path}/todos`}>
-              <TodosRoute userId={id} />
+              <TodosRoute/>
             </Route>
             <Route path={`${path}/:else`}>
               <Redirect to={path} />
