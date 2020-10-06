@@ -10,7 +10,7 @@ interface Request {
 }
 
 export const fetchWithAuth = async (
-  url: string, method: APIMethod, body?: object
+  url: string, method: APIMethod = 'GET', body: object = {}
   ): Promise<any> => {
     const token = localStorage.getItem('_product_ive_token')
 
