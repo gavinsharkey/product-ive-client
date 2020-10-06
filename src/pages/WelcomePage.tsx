@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Row, Col, Divider, Typography, Button } from 'antd'
 import { RouteComponentProps } from 'react-router-dom'
 import RegistrationWrapper from '../components/RegistrationWrapper'
+import { useSelector } from 'react-redux'
+import { UserState } from '../types/userTypes'
 
 const { Title, Paragraph, Link } = Typography
 
 const WelcomePage: React.FC<RouteComponentProps> = (props) => {
+  const isLoggedIn = useSelector((state: UserState) => state.isLoggedIn)
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      props.history.replace('/dashboard')
+    }
+  }, [isLoggedIn, props.history])
+
   const handleLink = (route: string): void => {
     props.history.push(route)
   }
