@@ -1,8 +1,7 @@
 import React from 'react'
 import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Layout } from 'antd'
-import { UserState } from '../types/userTypes'
 import { logout } from '../actions/userActions'
 import DashboardHeader from '../components/dashboard/header/DashboardHeader'
 import NotesRoute from '../components/dashboard/routes/NotesRoute'
@@ -13,7 +12,6 @@ const { Footer } = Layout
 
 const DashboardPage: React.FC<RouteComponentProps> = (props) => {
   const path = props.match.path
-  const id = useSelector((state: UserState) => state.user.id)
   const dispatch = useDispatch()
 
   const handleLogout = () => {
