@@ -1,13 +1,16 @@
 import React from 'react'
 import { Layout } from 'antd'
-import './Sider.css'
+import ThemedSider from '../../ThemedSider'
 
-const { Sider, Content } = Layout
+const { Content } = Layout
 
 const NotesRoute: React.FC = (props) => {
   return (
     <>
-      <Sider className="sider-navigation" collapsible>Nav</Sider>
+      <ThemedSider
+        theme='light'
+      >
+      </ThemedSider>
       <Content></Content>
     </>
   )
