@@ -1,24 +1,30 @@
-.task-item, .task-item-content, .task-item-data, .task-item-completed {
+.task-item, .task-item-data, .task-item-completed {
   display: flex;
   flex-direction: row;
   align-items: center;
   height: 100%;
 }
 
+.task-item {
+  /* justify-content: space-between; */
+  height: 75px;
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 0.5em;
+  border-radius: 2px;
+}
+
 .task-item-completed {
-  margin-right: 0.5em;
   cursor: pointer;
+  padding: 0.5em;
+  /* background: #1DA57A; */
+  width: 30px;
+  align-self: stretch;
+  margin-right: 1em;
 }
 
 .task-item-completed svg {
-  font-size: 25px;
-  color: #1DA57A;
+  font-size: 15px;
+  color: #fff;
 }
 
-.task-item {
-  justify-content: space-between;
-  height: 75px;
-  padding: 0px 1.5em;
-  background: #fff;
-  margin-bottom: 0.5em;
-}
