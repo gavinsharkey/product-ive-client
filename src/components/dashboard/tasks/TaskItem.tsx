@@ -6,14 +6,14 @@ import { Task } from '../../../types/tasksTypes'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import './TaskItem.css'
 
+const { Title, Text } = Typography
+
 interface TaskItemProps {
   task: Task
   handleSetCompleted: (id: number, completed: boolean) => void
   handleEditName: (id: number, value: string) => void
   handleDeleteTask: (id: number) => void
 }
-
-const { Title, Text } = Typography
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEditName, handleDeleteTask }) => {
   // useRef allows debounce to maintain its current timeout status through rerenders
