@@ -1,4 +1,4 @@
-.task-item, .task-item-data, .task-item-completed {
+.task-item, .task-item-left, .task-item-right, .task-item-data, .task-item-edge {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -6,7 +6,7 @@
 }
 
 .task-item {
-  /* justify-content: space-between; */
+  justify-content: space-between;
   height: 75px;
   overflow: hidden;
   background: #fff;
@@ -14,16 +14,26 @@
   border-radius: 2px;
 }
 
-.task-item-completed {
+.task-item-content .ant-typography {
+  margin: 0px;
+}
+
+.task-item-edge {
   cursor: pointer;
   padding: 0.5em;
+  justify-content: center;
   /* background: #1DA57A; */
-  width: 30px;
+  width: 40px;
   align-self: stretch;
   margin-right: 1em;
 }
 
-.task-item-completed svg {
+.task-item-edge.danger {
+  background-color: #CD0000;
+  margin-right: 0px;
+}
+
+.task-item-edge svg {
   font-size: 15px;
   color: #fff;
 }
