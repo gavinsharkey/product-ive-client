@@ -38,7 +38,10 @@ const TasksRoute: React.FC = (props) => {
         <Typography.Title level={4}>
           Menu
         </Typography.Title>
-        <Menu
+        { loading
+          ? <LoadingOutlined />
+          : (
+          <Menu
             onSelect={values => setSelectedTaskKey(values.key)}
             mode="inline"
             theme="light"
@@ -47,11 +50,10 @@ const TasksRoute: React.FC = (props) => {
             <Menu.Item key="all" icon={<UserOutlined />}>
               All Tasks
             </Menu.Item>
-            { loading
-              ? <LoadingOutlined />
-              : renderedTaskGroups()
-            }
+            {renderedTaskGroups()}
           </Menu>
+          )
+        }
       </ThemedSider>
       <Content>
         <TasksContainer taskKey={selectedTaskKey} />
