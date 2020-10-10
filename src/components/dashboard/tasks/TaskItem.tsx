@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Typography } from 'antd'
+import { Typography, Popconfirm } from 'antd'
 import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
 import { debounce } from '../../../concerns/debounce'
 import { Task } from '../../../types/tasksTypes'
@@ -10,11 +10,12 @@ interface TaskItemProps {
   task: Task
   handleSetCompleted: (id: number, completed: boolean) => void
   handleEditName: (id: number, value: string) => void
+  handleDeleteTask: (id: number) => void
 }
 
 const { Title, Text } = Typography
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEditName }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEditName, handleDeleteTask }) => {
   // useRef allows debounce to maintain its current timeout status through rerenders
   const updateTaskCompleted = useRef(debounce((completed: boolean) => {
     return fetchWithAuth(`http://localhost:3001/tasks/${task.id}`, 'PATCH', {
@@ -54,7 +55,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEdi
                   handleEditName(task.id, value)
                   updateTaskName.current(value)
                 }
-              } 
+              }
             }}
           >
             {task.name}
@@ -63,9 +64,18 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEdi
         </div>
       </div>
       <div className="task-item-right">
-        <div title="Delete Task" className="task-item-edge danger">
-          <CloseCircleOutlined />
-        </div>
+        <Popconfirm
+          title="Are you sure you want to delete this task?"
+          onConfirm={() => {
+            handleDeleteTask(task.id)
+          }}
+          placement="left"
+
+        >
+          <div title="Delete Task" className="task-item-edge danger">
+            <CloseCircleOutlined />
+          </div>
+        </Popconfirm>
       </div>
     </div>
   )
