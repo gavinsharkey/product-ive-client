@@ -32,9 +32,38 @@ const TasksContainer: React.FC<TasksContainerProps> = (props) => {
     })()
   }, [props.taskKey])
 
+  const handleSetCompleted = (id: number, completed: boolean): void => {
+    setTasks((prevTasks) => {
+      return prevTasks.map(task => {
+        if (task.id === id) {
+          return { ...task, completed: !completed }
+        } else {
+          return task
+        }
+      })
+    })
+  }
+
+  const handleEditName = (id: number, value: string): void => {
+    setTasks((prevTasks) => {
+      return prevTasks.map((task) => {
+        if (task.id === id) {
+          return { ...task, name: value }
+        } else {
+          return task
+        }
+      })
+    })
+  }
+
   const renderedTasks = () => {
     return tasks.map((task: Task) => {
-      return <TaskItem task={task} />
+      return <TaskItem
+        key={task.id}
+        task={task}
+        handleSetCompleted={handleSetCompleted}
+        handleEditName={handleEditName}
+      />
     })
   }
 
