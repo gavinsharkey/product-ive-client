@@ -57,6 +57,12 @@ const TasksContainer: React.FC<TasksContainerProps> = (props) => {
     })
   }
 
+  const handleDeleteTask = (id: number): void => {
+    setTasks((prevTasks) => {
+      return prevTasks.filter(task => task.id !== id)
+    })
+  }
+
   const renderedTasks = () => {
     return tasks.map((task: Task) => {
       return <TaskItem
@@ -64,6 +70,7 @@ const TasksContainer: React.FC<TasksContainerProps> = (props) => {
         task={task}
         handleSetCompleted={handleSetCompleted}
         handleEditName={handleEditName}
+        handleDeleteTask={handleDeleteTask}
       />
     })
   }
