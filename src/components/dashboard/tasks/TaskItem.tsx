@@ -29,6 +29,10 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEdi
     })
   }, 3000))
 
+  const deleteTask = () => {
+    return fetchWithAuth(`http://localhost:3001/tasks/${task.id}`, 'DELETE')
+  }
+
   const CompletedStatusIcon = task.completed ? CheckCircleOutlined : CloseCircleOutlined
   const completedStyle = { background: task.completed ? '#1DA57A' : '#ddd' }
 
@@ -67,6 +71,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEdi
         <Popconfirm
           title="Are you sure you want to delete this task?"
           onConfirm={() => {
+            deleteTask()
             handleDeleteTask(task.id)
           }}
           placement="left"
