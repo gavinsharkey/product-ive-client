@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Layout, Menu, Typography } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, LoadingOutlined, FolderOutlined } from '@ant-design/icons'
 import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
 import { TaskGroup } from '../../../types/taskGroupTypes'
 import ThemedSider from '../../ThemedSider'
@@ -25,7 +25,7 @@ const TasksRoute: React.FC = (props) => {
   const renderedTaskGroups = () => {
     return taskGroups.map((taskGroup: TaskGroup) => {
       return (
-        <Menu.Item key={taskGroup.id}>
+        <Menu.Item key={taskGroup.id} icon={<FolderOutlined />}>
           {taskGroup.name}
         </Menu.Item>
       )
@@ -48,7 +48,7 @@ const TasksRoute: React.FC = (props) => {
               All Tasks
             </Menu.Item>
             { loading
-              ? null
+              ? <LoadingOutlined />
               : renderedTaskGroups()
             }
           </Menu>
