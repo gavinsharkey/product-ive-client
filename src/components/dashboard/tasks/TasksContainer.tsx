@@ -32,6 +32,7 @@ const TasksContainer: React.FC<TasksContainerProps> = (props) => {
     })()
   }, [props.taskKey])
 
+
   const handleSetCompleted = (id: number, completed: boolean): void => {
     setTasks((prevTasks) => {
       return prevTasks.map(task => {
