@@ -5,13 +5,15 @@ import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
 import { TaskGroup } from '../../../types/taskGroupTypes'
 import ThemedSider from '../../ThemedSider'
 import TasksContainer from '../tasks/TasksContainer'
+import TaskGroupForm from '../tasks/TaskGroupForm'
 
 const { Content } = Layout
+const { Title } = Typography
 
 const TasksRoute: React.FC = (props) => {
   const [taskGroups, setTaskGroups] = useState<TaskGroup[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedTaskKey, setSelectedTaskKey] = useState<React.Key>('all')
+  const [selectedGroupKey, setSelectedGroupKey] = useState<React.Key>('all')
 
   useEffect(() => {
     (async () => {
@@ -32,17 +34,20 @@ const TasksRoute: React.FC = (props) => {
     })
   }
 
+  const selectedTask = selectedGroupKey === 'all' ? 'all' : (
+    taskGroups.find(task => task.id === parseInt(selectedGroupKey as string))
+  )
+
   return (
     <>
       <ThemedSider theme="light">
-        <Typography.Title level={4}>
-          Menu
-        </Typography.Title>
+        <Title level={4}>Menu</Title>
+        <TaskGroupForm />
         { loading
           ? <LoadingOutlined />
           : (
           <Menu
-            onSelect={values => setSelectedTaskKey(values.key)}
+            onSelect={values => setSelectedGroupKey(values.key)}
             mode="inline"
             theme="light"
             defaultSelectedKeys={['all']}
@@ -50,13 +55,14 @@ const TasksRoute: React.FC = (props) => {
             <Menu.Item key="all" icon={<UserOutlined />}>
               All Tasks
             </Menu.Item>
+            <Menu.Divider />
             {renderedTaskGroups()}
           </Menu>
           )
         }
       </ThemedSider>
       <Content>
-        <TasksContainer taskKey={selectedTaskKey} />
+        <TasksContainer taskGroup={selectedTask} />
       </Content>
     </>
   )
