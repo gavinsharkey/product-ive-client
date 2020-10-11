@@ -24,8 +24,20 @@ const TasksRoute: React.FC = (props) => {
     })()
   }, [])
 
+  const handleCreateTaskGroup = async (value: string): Promise<any> => {
+    setLoading(true)
+    const data = await fetchWithAuth<TaskGroup>('http://localhost:3001/task_groups', 'POST', {
+      task_group: { name: value }
+    })
+
+    if (!data.errors) {
+      setTaskGroups(prevState => [data, ...prevState])
+      setLoading(false)
+    }
+  }
+
   const renderedTaskGroups = () => {
-    return taskGroups.map((taskGroup: TaskGroup) => {
+    return taskGroups.map((taskGroup) => {
       return (
         <Menu.Item key={taskGroup.id} icon={<FolderOutlined />}>
           {taskGroup.name}
@@ -42,7 +54,7 @@ const TasksRoute: React.FC = (props) => {
     <>
       <ThemedSider theme="light">
         <Title level={4}>Menu</Title>
-        <TaskGroupForm />
+        <TaskGroupForm handleCreateTaskGroup={handleCreateTaskGroup} />
         { loading
           ? <LoadingOutlined />
           : (

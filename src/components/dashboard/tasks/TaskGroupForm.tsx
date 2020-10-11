@@ -4,7 +4,11 @@ import './TaskGroupForm.css'
 
 const { Panel } = Collapse
 
-const TaskGroupForm: React.FC = () => {
+interface TaskGroupFormProps {
+  handleCreateTaskGroup: (value: string) => Promise<any>
+}
+
+const TaskGroupForm: React.FC<TaskGroupFormProps> = ({ handleCreateTaskGroup }) => {
   const [value, setValue] = useState('')
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -12,6 +16,10 @@ const TaskGroupForm: React.FC = () => {
   }
 
   const handleSubmit = () => {
+    if (value.length > 0 && value.length <= 20) {
+      handleCreateTaskGroup(value)
+    }
+    
     setValue('')
   }
 
@@ -22,6 +30,7 @@ const TaskGroupForm: React.FC = () => {
           <Input
             placeholder="Enter name..."
             value={value}
+            maxLength={20}
             onChange={handleChange}
             onPressEnter={handleSubmit}
           />
