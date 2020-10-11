@@ -9,9 +9,9 @@ interface Request {
   body?: string
 }
 
-export const fetchWithAuth = async (
+export const fetchWithAuth = async <T = any>(
   url: string, method: APIMethod = 'GET', body: object = {}
-  ): Promise<any> => {
+  ): Promise<T> => {
     const token = localStorage.getItem('_product_ive_token')
 
     const request: Request = {
