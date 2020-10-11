@@ -11,6 +11,7 @@ const { Content } = Layout
 const { Title } = Typography
 
 const TasksRoute: React.FC = (props) => {
+  const [collapsed, setCollapsed] = useState(false)
   const [taskGroups, setTaskGroups] = useState<TaskGroup[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedGroupKey, setSelectedGroupKey] = useState<React.Key>('all')
@@ -52,9 +53,18 @@ const TasksRoute: React.FC = (props) => {
 
   return (
     <>
-      <ThemedSider theme="light">
-        <Title level={4}>Menu</Title>
-        <TaskGroupForm handleCreateTaskGroup={handleCreateTaskGroup} />
+      <ThemedSider
+        collapsed={collapsed}
+        onCollapse={(collapsed) => setCollapsed(collapsed)}
+        theme="light"
+      >
+        {!collapsed ? (
+          <>
+            <Title level={4}>Menu</Title>
+            <TaskGroupForm handleCreateTaskGroup={handleCreateTaskGroup} />
+          </>
+        ) : null
+        } 
         { loading
           ? <LoadingOutlined />
           : (
@@ -64,6 +74,7 @@ const TasksRoute: React.FC = (props) => {
             theme="light"
             defaultSelectedKeys={['all']}
           >
+            <Menu.Divider />
             <Menu.Item key="all" icon={<UserOutlined />}>
               All Tasks
             </Menu.Item>
