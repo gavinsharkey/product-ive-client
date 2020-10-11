@@ -13,27 +13,27 @@ interface TasksContainerProps {
   taskGroup: TaskGroup | 'all' | undefined
 }
 
-const TasksContainer: React.FC<TasksContainerProps> = (props) => {
+const TasksContainer: React.FC<TasksContainerProps> = ({ taskGroup }) => {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     (async () => {
-      if (props.taskGroup) {
+      if (taskGroup) {
         setLoading(true)
         let data
 
-        if (props.taskGroup === 'all') {
+        if (taskGroup === 'all') {
           data = await fetchWithAuth(`http://localhost:3001/tasks`)
         } else {
-          data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${props.taskGroup.id}`)
+          data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${taskGroup.id}`)
         }
 
         setTasks(data)
         setLoading(false)
       }
     })()
-  }, [props.taskGroup])
+  }, [taskGroup])
 
 
   const handleSetCompleted = (id: number, completed: boolean): void => {
@@ -79,10 +79,10 @@ const TasksContainer: React.FC<TasksContainerProps> = (props) => {
   }
 
   const renderedTitle = () => {
-    if (props.taskGroup === 'all') {
+    if (taskGroup === 'all') {
       return 'All Tasks'
-    } else if (props.taskGroup) {
-      return props.taskGroup.name
+    } else if (taskGroup) {
+      return taskGroup.name
     } else {
       return null
     }
@@ -96,7 +96,10 @@ const TasksContainer: React.FC<TasksContainerProps> = (props) => {
         ? <ThemedSkeleton paragraph active />
         : (
           <div className="tasks">
-            {renderedTasks()}
+            { tasks.length > 0
+            ? renderedTasks()
+            : <Title type="secondary" level={3}>Hmm, there don't seem to be any tasks to show...</Title>
+            }
           </div>
         )
       }
