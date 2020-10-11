@@ -5,11 +5,12 @@ import TaskItem from './TaskItem'
 import './TasksContainer.css'
 import { Task } from '../../../types/tasksTypes'
 import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
+import { TaskGroup } from '../../../types/taskGroupTypes'
 
 const { Title } = Typography
 
 interface TasksContainerProps {
-  taskKey: React.Key
+  taskGroup: TaskGroup | 'all' | undefined
 }
 
 const TasksContainer: React.FC<TasksContainerProps> = (props) => {
@@ -18,19 +19,21 @@ const TasksContainer: React.FC<TasksContainerProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      setLoading(true)
-      let data
+      if (props.taskGroup) {
+        setLoading(true)
+        let data
 
-      if (props.taskKey === 'all') {
-        data = await fetchWithAuth(`http://localhost:3001/tasks`)
-      } else {
-        data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${props.taskKey}`)
+        if (props.taskGroup === 'all') {
+          data = await fetchWithAuth(`http://localhost:3001/tasks`)
+        } else {
+          data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${props.taskGroup.id}`)
+        }
+
+        setTasks(data)
+        setLoading(false)
       }
-
-      setTasks(data)
-      setLoading(false)
     })()
-  }, [props.taskKey])
+  }, [props.taskGroup])
 
 
   const handleSetCompleted = (id: number, completed: boolean): void => {
@@ -64,7 +67,7 @@ const TasksContainer: React.FC<TasksContainerProps> = (props) => {
   }
 
   const renderedTasks = () => {
-    return tasks.map((task: Task) => {
+    return tasks.map((task) => {
       return <TaskItem
         key={task.id}
         task={task}
@@ -75,9 +78,19 @@ const TasksContainer: React.FC<TasksContainerProps> = (props) => {
     })
   }
 
+  const renderedTitle = () => {
+    if (props.taskGroup === 'all') {
+      return 'All Tasks'
+    } else if (props.taskGroup) {
+      return props.taskGroup.name
+    } else {
+      return null
+    }
+  } 
+
   return (
     <div className="tasks-container">
-      <Title>All Tasks</Title>
+      <Title>{renderedTitle()}</Title>
       <Divider />
       { loading
         ? <ThemedSkeleton paragraph active />
