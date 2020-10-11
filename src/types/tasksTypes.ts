@@ -1,5 +1,6 @@
 import { TaskGroup } from './taskGroupTypes'
 import { User } from './userTypes';
+import { Errors } from './errorTypes'
 
 export interface Task {
   id: number
@@ -7,4 +8,5 @@ export interface Task {
   name: string
   completed: boolean
   taskable: TaskGroup & User
+  errors?: Errors 
 }
