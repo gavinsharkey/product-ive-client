@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { Typography, Popconfirm } from 'antd'
 import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
-import { debounce } from '../../../concerns/debounce'
+import { debounce } from 'debounce'
 import { Task } from '../../../types/tasksTypes'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import './TaskItem.css'
@@ -21,13 +21,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEdi
     return fetchWithAuth(`http://localhost:3001/tasks/${task.id}`, 'PATCH', {
       task: { completed: !completed }
     })
-  }, 3000))
+  }, 3000, true))
 
   const updateTaskName = useRef(debounce((value: string) => {
     return fetchWithAuth(`http://localhost:3001/tasks/${task.id}`, 'PATCH', {
       task: { name: value }
     })
-  }, 3000))
+  }, 3000, true))
 
   const deleteTask = () => {
     return fetchWithAuth(`http://localhost:3001/tasks/${task.id}`, 'DELETE')
