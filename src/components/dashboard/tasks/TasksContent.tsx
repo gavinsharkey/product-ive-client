@@ -34,6 +34,10 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup }) => {
     })()
   }, [taskGroup])
 
+  // const handleAddTask = () => {
+
+  // }
+
 
   const handleSetCompleted = (id: number, completed: boolean): void => {
     setTasks((prevTasks) => {
