@@ -1,0 +1,8 @@
+.tasks-content {
+  margin: 2em
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+}
