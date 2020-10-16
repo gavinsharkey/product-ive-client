@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Layout, Menu, Typography } from 'antd'
+import { Menu, Typography } from 'antd'
 import { UserOutlined, LoadingOutlined, FolderOutlined } from '@ant-design/icons'
 import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
 import { TaskGroup } from '../../../types/taskGroupTypes'
+import ThemedContent from '../../ThemedContent'
 import ThemedSider from '../../ThemedSider'
-import TasksContainer from '../tasks/TasksContainer'
+import TasksContent from '../tasks/TasksContent'
 import TaskGroupForm from '../tasks/TaskGroupForm'
 
-const { Content } = Layout
 const { Title } = Typography
 
 const TasksRoute: React.FC = (props) => {
@@ -84,9 +84,9 @@ const TasksRoute: React.FC = (props) => {
           )
         }
       </ThemedSider>
-      <Content>
-        <TasksContainer taskGroup={selectedTask} />
-      </Content>
+      <ThemedContent>
+        <TasksContent taskGroup={selectedTask} />
+      </ThemedContent>
     </>
   )
 }
