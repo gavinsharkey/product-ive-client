@@ -88,17 +88,15 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup }) => {
 
   const renderedTitle = () => {
     if (taskGroup === 'all') {
-      return 'All Tasks'
+      return <Title>All Tasks</Title>
     } else if (taskGroup) {
-      return taskGroup.name
-    } else {
-      return null
+      return <Title>{taskGroup.name}</Title>
     }
   } 
 
   return (
     <div className="tasks-container">
-      <Title>{renderedTitle()}</Title>
+      {renderedTitle()}
       <TasksForm
         loading={loading}
         handleAddTask={(name: string) => {
