@@ -1,8 +1,10 @@
 import React from 'react'
-import { Layout } from 'antd'
+import { Layout, Typography } from 'antd'
 import ThemedSider from '../../ThemedSider'
+import ThemedContent from '../../ThemedContent'
 
 const { Content } = Layout
+const { Title } = Typography
 
 const NotesRoute: React.FC = (props) => {
   return (
@@ -10,8 +12,11 @@ const NotesRoute: React.FC = (props) => {
       <ThemedSider
         theme='light'
       >
+        <Title level={4}>Menu</Title>
       </ThemedSider>
-      <Content></Content>
+      <ThemedContent>
+        <Title>Coming soon!</Title>
+      </ThemedContent>
     </>
   )
 }
