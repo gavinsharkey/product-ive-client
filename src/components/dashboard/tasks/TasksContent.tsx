@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ReactText } from 'react'
 import { Typography, Divider } from 'antd'
 import './TasksContent.css'
 import { Task } from '../../../types/tasksTypes'
 import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
 import { TaskGroup } from '../../../types/taskGroupTypes'
 import TasksContainer from './TasksContainer'
+import TasksForm from './TasksForm'
 
 const { Title } = Typography
 
@@ -34,9 +35,25 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup }) => {
     })()
   }, [taskGroup])
 
-  // const handleAddTask = () => {
+  const handleAddTask = async (name: string, taskGroupId?: ReactText) => {
+    setLoading(true)
 
-  // }
+    let data: Task;
+    if (taskGroupId) {
+      data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${taskGroupId}`, 'POST', {
+        task: { name }
+      })
+    } else {
+      data = await fetchWithAuth(`http://localhost:3001/tasks`, 'POST', {
+        task: { name }
+      })
+    }
+
+    setTasks(prevTasks => {
+      return [data, ...prevTasks]
+    })
+    setLoading(false)
+  }
 
 
   const handleSetCompleted = (id: number, completed: boolean): void => {
@@ -82,6 +99,11 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup }) => {
   return (
     <div className="tasks-container">
       <Title>{renderedTitle()}</Title>
+      <TasksForm
+        loading={loading}
+        handleAddTask={(name: string) => {
+          return taskGroup && taskGroup !== 'all' ? handleAddTask(name, taskGroup.id) : handleAddTask(name)
+        }} />
       <Divider />
       <TasksContainer
         tasks={tasks}
