@@ -95,7 +95,7 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup }) => {
   } 
 
   return (
-    <div className="tasks-container">
+    <div className="tasks-content">
       {renderedTitle()}
       <TasksForm
         loading={loading}
