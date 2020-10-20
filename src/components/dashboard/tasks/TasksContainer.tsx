@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Typography } from 'antd'
 import { Task } from '../../../types/tasksTypes'
 import ThemedSkeleton from '../../ThemedSkeleton'
@@ -16,18 +16,28 @@ interface TasksConatinerProps {
 }
 
 const TasksContainer: React.FC<TasksConatinerProps> = ({ tasks, loading, handleSetCompleted, handleDeleteTask, handleEditName }) => {
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null)
+
+  const handleSelectTask = (id: number | null): void => {
+    setSelectedTaskId(id)
+  }
+
   const renderedTasks = () => {
     if (tasks.length === 0) {
       return <Title type="secondary" level={3}>Hmm, there don't seem to be any tasks to show...</Title>
     }
 
     return tasks.map((task) => {
+      const isSelected = (selectedTaskId === task.id)
+
       return <TaskItem
         key={task.id}
         task={task}
+        isSelected={isSelected}
         handleSetCompleted={handleSetCompleted}
         handleEditName={handleEditName}
         handleDeleteTask={handleDeleteTask}
+        handleSelectTask={handleSelectTask}
       />
     })
   }
