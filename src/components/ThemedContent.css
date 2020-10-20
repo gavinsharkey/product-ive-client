@@ -1,3 +1,9 @@
 .themed-content {
-  margin: 2em;
+  margin: 2em 2em 0px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.themed-content::-webkit-scrollbar {
+  display: none;
 }
