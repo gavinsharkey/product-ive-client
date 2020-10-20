@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.less';
+
 .task-item, .task-item-left, .task-item-right, .task-item-data, .task-item-edge {
   display: flex;
   flex-direction: row;
@@ -12,6 +14,20 @@
   background: #fff;
   margin-bottom: 0.5em;
   border-radius: 2px;
+  transition: all 250ms ease;
+}
+
+.task-item:hover  {
+  box-shadow: 3px 3px 6px 1px #cccccc;
+  transform: translateY(-5px)
+}
+
+.task-item.selected {
+  background: #eee;
+}
+
+.task-item.selected .task-item-content .ant-typography {
+  color: @primary-color
 }
 
 .task-item-content .ant-typography {
