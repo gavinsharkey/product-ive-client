@@ -43,7 +43,6 @@ const DashboardPage: React.FC<RouteComponentProps> = (props) => {
             </Route>
           </Switch>
         </Layout>
-        <Footer></Footer>
       </Layout>
     </>
   )
