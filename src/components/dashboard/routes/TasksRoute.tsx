@@ -14,7 +14,7 @@ const TasksRoute: React.FC = (props) => {
   const [collapsed, setCollapsed] = useState(false)
   const [taskGroups, setTaskGroups] = useState<TaskGroup[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedGroupKey, setSelectedGroupKey] = useState<React.Key>('all')
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(['all'])
 
   useEffect(() => {
     (async () => {
@@ -37,6 +37,15 @@ const TasksRoute: React.FC = (props) => {
     }
   }
 
+  const handleDeleteTaskGroup = (taskGroup: TaskGroup): void => {
+    setTaskGroups(prevTaskGroups => {
+      return prevTaskGroups.filter(currentTaskGroup => {
+        return currentTaskGroup.id !== taskGroup.id
+      })
+    })
+    setSelectedKeys(['all'])
+  }
+
   const renderedTaskGroups = () => {
     return taskGroups.map((taskGroup) => {
       return (
@@ -47,9 +56,13 @@ const TasksRoute: React.FC = (props) => {
     })
   }
 
-  const selectedTask = selectedGroupKey === 'all' ? 'all' : (
-    taskGroups.find(task => task.id === parseInt(selectedGroupKey as string))
-  )
+  const selectedTaskGroup = () => {
+    if (selectedKeys[0] === 'all') {
+      return 'all'
+    } else {
+      return taskGroups.find(task => task.id === parseInt(selectedKeys[0]))
+    }
+  }
 
   return (
     <>
@@ -69,9 +82,10 @@ const TasksRoute: React.FC = (props) => {
           ? <LoadingOutlined />
           : (
           <Menu
-            onSelect={values => setSelectedGroupKey(values.key)}
+            onSelect={values => setSelectedKeys(values.selectedKeys as string[])}
             mode="inline"
             theme="light"
+            selectedKeys={selectedKeys}
             defaultSelectedKeys={['all']}
           >
             <Menu.Divider />
@@ -85,7 +99,10 @@ const TasksRoute: React.FC = (props) => {
         }
       </ThemedSider>
       <ThemedContent>
-        <TasksContent taskGroup={selectedTask} />
+        <TasksContent 
+          handleDeleteTaskGroup={handleDeleteTaskGroup}
+          taskGroup={selectedTaskGroup()}
+        />
       </ThemedContent>
     </>
   )

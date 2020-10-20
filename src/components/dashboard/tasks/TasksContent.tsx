@@ -11,9 +11,10 @@ const { Title } = Typography
 
 interface TasksContentProps {
   taskGroup: TaskGroup | 'all' | undefined
+  handleDeleteTaskGroup: (taskGroup: TaskGroup) => void
 }
 
-const TasksContent: React.FC<TasksContentProps> = ({ taskGroup }) => {
+const TasksContent: React.FC<TasksContentProps> = ({ taskGroup, handleDeleteTaskGroup }) => {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -99,6 +100,10 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup }) => {
       {renderedTitle()}
       <TasksForm
         loading={loading}
+        selectedTaskGroup={taskGroup}
+        handleDeleteTaskGroup={() => {
+          return taskGroup && taskGroup !== 'all' ? handleDeleteTaskGroup(taskGroup) : null
+        }}
         handleAddTask={(name: string) => {
           return taskGroup && taskGroup !== 'all' ? handleAddTask(name, taskGroup.id) : handleAddTask(name)
         }} />
