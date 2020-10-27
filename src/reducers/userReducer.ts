@@ -35,7 +35,8 @@ export default (
       return {
         ...state,
         user: {},
-        isLoggedIn: false
+        isLoggedIn: false,
+        status: 'ok'
       }
     default:
       return state
