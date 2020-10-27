@@ -26,8 +26,10 @@ export const checkLoggedInStatus = (): UserThunk<void> => {
     dispatch(loadingUser())
     fetchWithAuth('http://localhost:3001/logged_in', 'GET')
     .then(data => {
-      if (!data.errors) {
-        dispatch(setUser(data))
+      if (data.logged_in) {
+        dispatch(setUser(data.user))
+      } else {
+        dispatch(logout())
       }
     })
   }
