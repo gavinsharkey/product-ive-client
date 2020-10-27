@@ -1,9 +1,8 @@
 import React from 'react'
-import { Layout, Typography } from 'antd'
+import { Typography } from 'antd'
 import ThemedSider from '../../ThemedSider'
 import ThemedContent from '../../ThemedContent'
 
-const { Content } = Layout
 const { Title } = Typography
 
 const NotesRoute: React.FC = (props) => {
