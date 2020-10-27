@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Menu, Typography } from 'antd'
+import { Menu, Typography, message } from 'antd'
 import { UserOutlined, LoadingOutlined, FolderOutlined } from '@ant-design/icons'
 import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
 import { TaskGroup } from '../../../types/taskGroupTypes'
@@ -37,13 +37,18 @@ const TasksRoute: React.FC = (props) => {
     }
   }
 
-  const handleDeleteTaskGroup = (taskGroup: TaskGroup): void => {
+  const handleDeleteTaskGroup = async (taskGroup: TaskGroup): Promise<void> => {
     setTaskGroups(prevTaskGroups => {
       return prevTaskGroups.filter(currentTaskGroup => {
         return currentTaskGroup.id !== taskGroup.id
       })
     })
     setSelectedKeys(['all'])
+
+    const response = await fetchWithAuth<{destroyed: boolean}>(`http://localhost:3001/task_groups/${taskGroup.id}`, 'DELETE')
+    if (response.destroyed) {
+      message.success(`Deleted Task Group: ${taskGroup.name}`)
+    }
   }
 
   const renderedTaskGroups = () => {
