@@ -14,8 +14,10 @@ const TasksForm: React.FC<TasksFormProps> = ({ loading, selectedTaskGroup, handl
   const [value, setValue] = useState('')
 
   const addTask = () => {
-    setValue('')
-    handleAddTask(value)
+    if (value.length > 0) {
+      setValue('')
+      handleAddTask(value)
+    }
   }
 
   return (
