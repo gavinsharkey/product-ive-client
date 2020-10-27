@@ -5,7 +5,7 @@ import ThemedContent from '../../ThemedContent'
 
 const { Title } = Typography
 
-const NotesRoute: React.FC = (props) => {
+const NotesRoute: React.FC = () => {
   return (
     <>
       <ThemedSider
