@@ -1,12 +1,13 @@
 import React from 'react'
-import { Layout } from 'antd'
-
-const { Content } = Layout
+import { Typography } from 'antd'
+import ThemedContent from '../../ThemedContent'
 
 const DefaultRoute: React.FC = (props) => {
   return (
     <>
-      <Content>Default</Content>
+      <ThemedContent>
+        <Typography.Title>Coming Soon!</Typography.Title>
+      </ThemedContent>
     </>
   )
 }
