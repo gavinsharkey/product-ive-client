@@ -50,7 +50,7 @@ export type UserThunk<ReturnType> = ThunkAction<
   ReturnType,
   UserState,
   unknown,
-  AnyAction
+  UserActionTypes
 >
 
 export type UserThunkDispatch = ThunkDispatch<
