@@ -19,9 +19,7 @@ const App: React.FC = () => {
   }, [dispatch])
 
   if (status === 'loading') {
-    return (
-      <Typography.Title>Loading...</Typography.Title>
-    )
+    return <Typography.Title>Loading...</Typography.Title>
   }
 
   return (
