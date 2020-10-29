@@ -3,7 +3,7 @@ import { Typography } from 'antd'
 import { Task } from '../../../types/tasksTypes'
 import { SelectedTaskIdType } from './TasksContent'
 import ThemedSkeleton from '../../ThemedSkeleton'
-import TaskItem from './TaskItem'
+import ParentTaskItem from './ParentTaskItem'
 import './TasksContainer.css'
 
 const { Title } = Typography
@@ -28,7 +28,7 @@ const TasksContainer: React.FC<TasksContainerProps> = ({ tasks, loading, selecte
     return tasks.map((task) => {
       const isSelected = (selectedTaskId === task.id)
 
-      return <TaskItem
+      return <ParentTaskItem
         key={task.id}
         task={task}
         isSelected={isSelected}
