@@ -8,7 +8,7 @@ import './TasksContainer.css'
 
 const { Title } = Typography
 
-interface TasksConatinerProps {
+interface TasksContainerProps {
   tasks: Task[]
   loading: boolean
   selectedTaskId: SelectedTaskIdType
@@ -18,7 +18,7 @@ interface TasksConatinerProps {
   handleSelectTask: (id: SelectedTaskIdType) => void
 }
 
-const TasksContainer: React.FC<TasksConatinerProps> = ({ tasks, loading, selectedTaskId, handleSetCompleted, handleDeleteTask, handleEditName, handleSelectTask }) => {
+const TasksContainer: React.FC<TasksContainerProps> = ({ tasks, loading, selectedTaskId, handleSetCompleted, handleDeleteTask, handleEditName, handleSelectTask }) => {
 
   const renderedTasks = () => {
     if (tasks.length === 0) {
