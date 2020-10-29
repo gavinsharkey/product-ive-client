@@ -8,8 +8,6 @@ import NotesRoute from '../components/dashboard/routes/NotesRoute'
 import TasksRoute from '../components/dashboard/routes/TasksRoute'
 import DefaultRoute from '../components/dashboard/routes/DefaultRoute'
 
-const { Footer } = Layout
-
 const DashboardPage: React.FC<RouteComponentProps> = (props) => {
   const path = props.match.path
   const dispatch = useDispatch()
