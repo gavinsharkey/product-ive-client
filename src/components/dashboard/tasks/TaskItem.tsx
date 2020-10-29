@@ -8,16 +8,14 @@ import './TaskItem.less'
 
 const { Title, Text } = Typography
 
-interface TaskItemProps {
+export interface TaskItemProps {
   task: Task
-  isSelected: boolean
   handleSetCompleted: (id: number, completed: boolean) => void
   handleEditName: (id: number, value: string) => void
   handleDeleteTask: (id: number) => void
-  handleSelectTask: (id: number | null) => void
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, isSelected, handleSetCompleted, handleEditName, handleDeleteTask, handleSelectTask }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEditName, handleDeleteTask }) => {
   // useRef allows debounce to maintain its current timeout status through rerenders
   const updateTaskCompleted = useRef(debounce((completed: boolean) => {
     return fetchWithAuth(`http://localhost:3001/tasks/${task.id}`, 'PATCH', {
@@ -35,17 +33,11 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, isSelected, handleSetComplete
     return fetchWithAuth(`http://localhost:3001/tasks/${task.id}`, 'DELETE')
   }
 
-  const handleSelect = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation()
-
-    isSelected ? handleSelectTask(null) : handleSelectTask(task.id)
-  }
-
   const CompletedStatusIcon = task.completed ? CheckCircleOutlined : CloseCircleOutlined
   const completedStyle = { background: task.completed ? '#1DA57A' : '#ddd' }
 
   return (
-    <div onClick={handleSelect} className={`task-item${isSelected ? ' selected' : ''}`}>
+    <>
       <div className="task-item-left">
         <div
           className="task-item-edge"
@@ -93,7 +85,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, isSelected, handleSetComplete
           </div>
         </Popconfirm>
       </div>
-    </div>
+    </>
   )
 }
 
