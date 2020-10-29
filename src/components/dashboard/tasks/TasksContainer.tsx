@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Typography } from 'antd'
 import { Task } from '../../../types/tasksTypes'
 import { SelectedTaskIdType } from './TasksContent'
