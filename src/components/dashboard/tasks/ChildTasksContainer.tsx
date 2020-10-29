@@ -1,4 +1,3 @@
-import { Skeleton } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { Typography } from 'antd'
 import ChildTaskItem from './ChildTaskItem'
