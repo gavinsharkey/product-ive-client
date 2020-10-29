@@ -1,5 +1,7 @@
 import React from 'react'
+import ChildTasksContainer from './ChildTasksContainer'
 import TaskItem, { TaskItemProps } from './TaskItem'
+import './ParentTaskItem.css'
 
 interface ParentTaskItemProps extends TaskItemProps {
   isSelected: boolean
@@ -14,9 +16,15 @@ const ParentTaskItem: React.FC<ParentTaskItemProps> = ({isSelected, handleSelect
   }
 
   return (
-    <div onClick={handleSelect} className={`task-item${isSelected ? ' selected' : ''}`}>
-      <TaskItem {...rest} />
-    </div>
+    <div className="parent-task-wrapper">
+      <div onClick={handleSelect} className={`parent-task-item task-item ${isSelected ? 'selected' : ''}`}>
+        <TaskItem {...rest} />
+      </div>
+      { isSelected
+        ? <ChildTasksContainer parentTaskId={rest.task.id} />
+        : null
+      }
+    </div >
   )
 }
 
