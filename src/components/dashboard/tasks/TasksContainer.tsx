@@ -11,7 +11,7 @@ const { Title } = Typography
 interface TasksConatinerProps {
   tasks: Task[]
   loading: boolean
-  selectedTaskId: number | null
+  selectedTaskId: SelectedTaskIdType
   handleSetCompleted: (id: number, completed: boolean) => void
   handleEditName: (id: number, value: string) => void
   handleDeleteTask: (id: number) => void
