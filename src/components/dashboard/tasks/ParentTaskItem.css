@@ -1,0 +1,9 @@
+.parent-task-wrapper {
+  margin-bottom: 0.5em;
+  background: #eee;
+}
+
+.parent-task-item:hover {
+  box-shadow: 3px 3px 6px 1px #cccccc;
+  transform: translateY(-5px)
+}
