@@ -25,7 +25,7 @@ const ChildTasksContainer: React.FC<ChildTasksContainerProps> = ({ parentTaskId 
       setChildTasks(data)
       setLoading(false)
     })()
-  }, [])
+  }, [parentTaskId])
 
   const handleSetCompleted = (id: number, completed: boolean): void => {
     setChildTasks((prevTasks) => {
