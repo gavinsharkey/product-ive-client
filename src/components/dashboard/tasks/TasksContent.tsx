@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactText } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Typography, Divider } from 'antd'
 import './TasksContent.css'
 import { Task } from '../../../types/tasksTypes'
@@ -9,6 +9,8 @@ import TasksForm from './TasksForm'
 
 const { Title } = Typography
 
+export type SelectedTaskIdType = number | null
+
 interface TasksContentProps {
   taskGroup: TaskGroup | 'all' | undefined
   handleDeleteTaskGroup: (taskGroup: TaskGroup) => void
@@ -17,6 +19,7 @@ interface TasksContentProps {
 const TasksContent: React.FC<TasksContentProps> = ({ taskGroup, handleDeleteTaskGroup }) => {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
+  const [selectedTaskId, setSelectedTaskId] = useState<SelectedTaskIdType>(null)
 
   useEffect(() => {
     (async () => {
@@ -36,12 +39,16 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup, handleDeleteTask
     })()
   }, [taskGroup])
 
-  const handleAddTask = async (name: string, taskGroupId?: ReactText) => {
+  const handleSelectTask = (id: SelectedTaskIdType): void => {
+    setSelectedTaskId(id)
+  }
+
+  const handleAddTask = async (name: string) => {
     setLoading(true)
 
     let data: Task;
-    if (taskGroupId) {
-      data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${taskGroupId}`, 'POST', {
+    if (taskGroup && taskGroup !== 'all') {
+      data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${taskGroup.id}`, 'POST', {
         task: { name }
       })
     } else {
@@ -101,19 +108,20 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup, handleDeleteTask
       <TasksForm
         loading={loading}
         selectedTaskGroup={taskGroup}
+        handleAddTask={handleAddTask}
         handleDeleteTaskGroup={() => {
           return taskGroup && taskGroup !== 'all' ? handleDeleteTaskGroup(taskGroup) : null
         }}
-        handleAddTask={(name: string) => {
-          return taskGroup && taskGroup !== 'all' ? handleAddTask(name, taskGroup.id) : handleAddTask(name)
-        }} />
+      />
       <Divider />
       <TasksContainer
         tasks={tasks}
         loading={loading}
+        selectedTaskId={selectedTaskId}
         handleSetCompleted={handleSetCompleted}
         handleDeleteTask={handleDeleteTask}
         handleEditName={handleEditName}
+        handleSelectTask={handleSelectTask}
       />
     </div>
   )

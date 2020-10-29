@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Typography } from 'antd'
 import { Task } from '../../../types/tasksTypes'
+import { SelectedTaskIdType } from './TasksContent'
 import ThemedSkeleton from '../../ThemedSkeleton'
 import TaskItem from './TaskItem'
 import './TasksContainer.css'
@@ -10,17 +11,14 @@ const { Title } = Typography
 interface TasksConatinerProps {
   tasks: Task[]
   loading: boolean
+  selectedTaskId: number | null
   handleSetCompleted: (id: number, completed: boolean) => void
   handleEditName: (id: number, value: string) => void
   handleDeleteTask: (id: number) => void
+  handleSelectTask: (id: SelectedTaskIdType) => void
 }
 
-const TasksContainer: React.FC<TasksConatinerProps> = ({ tasks, loading, handleSetCompleted, handleDeleteTask, handleEditName }) => {
-  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null)
-
-  const handleSelectTask = (id: number | null): void => {
-    setSelectedTaskId(id)
-  }
+const TasksContainer: React.FC<TasksConatinerProps> = ({ tasks, loading, selectedTaskId, handleSetCompleted, handleDeleteTask, handleEditName, handleSelectTask }) => {
 
   const renderedTasks = () => {
     if (tasks.length === 0) {
