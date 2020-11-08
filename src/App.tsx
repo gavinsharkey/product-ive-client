@@ -3,7 +3,7 @@ import { Typography } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { checkLoggedInStatus } from './actions/userActions'
-import { UserState } from './types/userTypes'
+import { RootState } from './reducers/rootReducer'
 import ProtectedRoute from './components/router/ProtectedRoute'
 import LoginScreen from './pages/LoginPage'
 import WelcomePage from './pages/WelcomePage';
@@ -11,7 +11,7 @@ import SignupPage from './pages/SignupPage'
 import DashboardPage from './pages/DashboardPage'
 
 const App: React.FC = () => {
-  const status = useSelector((state: UserState) => state.status)
+  const status = useSelector((state: RootState) => state.userData.status)
   const dispatch = useDispatch()
 
   useEffect(() => {

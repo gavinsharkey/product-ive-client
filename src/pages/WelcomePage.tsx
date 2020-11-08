@@ -3,12 +3,12 @@ import { Row, Col, Divider, Typography, Button } from 'antd'
 import { RouteComponentProps } from 'react-router-dom'
 import RegistrationWrapper from '../components/RegistrationWrapper'
 import { useSelector } from 'react-redux'
-import { UserState } from '../types/userTypes'
+import { RootState } from '../reducers/rootReducer'
 
 const { Title, Paragraph, Link } = Typography
 
 const WelcomePage: React.FC<RouteComponentProps> = (props) => {
-  const isLoggedIn = useSelector((state: UserState) => state.isLoggedIn)
+  const isLoggedIn = useSelector((state: RootState) => state.userData.isLoggedIn)
 
   useEffect(() => {
     if (isLoggedIn) {
