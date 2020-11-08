@@ -35,7 +35,7 @@ export const checkLoggedInStatus = (): UserThunk<void> => {
   }
 }
 
-export const login = (values: LoginValues): UserThunk<Promise<any>> => {
+export const login = (values: LoginValues): UserThunk<Promise<User & UserError>> => {
   return async dispatch => {
     return fetchWithAuth('http://localhost:3001/login', 'POST', {
       ...values
@@ -50,7 +50,7 @@ export const login = (values: LoginValues): UserThunk<Promise<any>> => {
   }
 }
 
-export const signUp = (values: SignupValues): UserThunk<Promise<any>> => {
+export const signUp = (values: SignupValues): UserThunk<Promise<User & UserError>> => {
   return async dispatch => {
     return fetchWithAuth('http://localhost:3001/signup', 'POST', {
       user: {
