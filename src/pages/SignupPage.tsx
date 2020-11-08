@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Form, Input, Divider, Typography, Button, message } from 'antd'
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Link as RouterLink, RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { signUp } from '../actions/userActions'
 import RegistrationWrapper from '../components/RegistrationWrapper' 
-import { UserState, UserThunkDispatch } from '../types/userTypes';
+import { RootState } from '../reducers/rootReducer';
 
 const { Title, Text, Link } = Typography
 
@@ -35,6 +35,10 @@ const SigninPage: React.FC<Props> = (props) => {
         message.error('There was an error submitting your request, please try again', 3)
       }
     })
+  }
+
+  const handleLink = (route: string): void => {
+    props.history.push(route)
   }
 
   return (
@@ -70,21 +74,15 @@ const SigninPage: React.FC<Props> = (props) => {
         </Form.Item>
       </Form>
       <Divider />
-      <Text>Already a user? <RouterLink to="/login" component={Link}>Log In</RouterLink></Text>
+      <Text>Already a user? <Link onClick={() => handleLink('/login')}>Log In</Link></Text>
     </RegistrationWrapper>
   )
 }
 
-const mapStateToProps = (state: UserState) => {
+const mapStateToProps = (state: RootState) => {
   return {
-    isLoggedIn: state.isLoggedIn
+    isLoggedIn: state.userData.isLoggedIn
   }
 }
 
-const mapDispatchToProps = (dispatch: UserThunkDispatch) => {
-  return {
-    signUp: (values: SignupValues) => dispatch(signUp(values))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SigninPage)
+export default connect(mapStateToProps, { signUp })(SigninPage)
