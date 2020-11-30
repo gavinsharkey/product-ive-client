@@ -10,12 +10,12 @@ const { Title, Text } = Typography
 
 export interface TaskItemProps {
   task: Task
-  handleSetCompleted: (id: number, completed: boolean) => void
-  handleEditName: (id: number, value: string) => void
-  handleDeleteTask: (id: number) => void
+  handleUpdateCompleted: () => void
+  handleUpdateName: (value: string) => void
+  handleDelete: () => void
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEditName, handleDeleteTask }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, handleUpdateCompleted, handleUpdateName, handleDelete }) => {
   // useRef allows debounce to maintain its current timeout status through rerenders
   const updateTaskCompleted = useRef(debounce((completed: boolean) => {
     return fetchWithAuth(`http://localhost:3001/tasks/${task.id}`, 'PATCH', {
@@ -44,7 +44,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEdi
           style={completedStyle}
           onClick={event => {
             event.stopPropagation()
-            handleSetCompleted(task.id, task.completed)
+            handleUpdateCompleted()
             updateTaskCompleted.current(task.completed)
           }}
         >
@@ -57,7 +57,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEdi
               autoSize: { maxRows: 2 },
               onChange: (value) => {
                 if (value.length > 0) {
-                  handleEditName(task.id, value)
+                  handleUpdateName(value)
                   updateTaskName.current(value)
                 }
               }
@@ -75,7 +75,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, handleSetCompleted, handleEdi
           onConfirm={e => {
             e?.stopPropagation()
             deleteTask()
-            handleDeleteTask(task.id)
+            handleDelete()
           }}
           placement="left"
 
