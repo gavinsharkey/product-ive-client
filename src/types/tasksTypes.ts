@@ -25,7 +25,7 @@ export interface SetTasksAction {
 export interface SetSubTasksAction {
   type: 'SET_SUB_TASKS'
   parentTaskId: number
-  subTasks: Task[]
+  tasks: Task[]
 }
 
 export interface AddTaskAction {

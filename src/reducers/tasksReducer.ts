@@ -11,13 +11,13 @@ export default (
     case "SET_SUB_TASKS":
       return state.map(task => {
         if (task.id === action.parentTaskId) {
-          return { ...task, sub_tasks: action.subTasks }
+          return { ...task, sub_tasks: action.tasks }
         } else {
           return task
         }
       })
     case "ADD_TASK":
-      return [...state, action.task]
+      return [action.task, ...state]
     case "ADD_SUB_TASK":
       return state.map(task => {
         return task.id === action.parentTaskId
