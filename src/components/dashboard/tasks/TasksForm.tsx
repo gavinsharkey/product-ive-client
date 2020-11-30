@@ -1,42 +1,91 @@
 import React, { useState } from 'react'
 import { Input, Button, Popconfirm } from 'antd'
+import { useDispatch } from 'react-redux'
+import { addTask, addSubTask } from '../../../actions/tasksActions'
 import { TaskGroup } from '../../../types/taskGroupTypes'
+import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
+import { Task } from '../../../types/tasksTypes'
+import { SelectedTaskIdType } from './TasksContent'
 import './TasksForm.css'
 
 interface TasksFormProps {
-  loading: boolean
   selectedTaskGroup: 'all' | TaskGroup | undefined
-  handleAddTask: (name: string) => void
+  selectedTaskId: SelectedTaskIdType
   handleDeleteTaskGroup: () => void
 }
 
-const TasksForm: React.FC<TasksFormProps> = ({ loading, selectedTaskGroup, handleAddTask, handleDeleteTaskGroup }) => {
+const TasksForm: React.FC<TasksFormProps> = ({ selectedTaskGroup, selectedTaskId, handleDeleteTaskGroup }) => {
   const [value, setValue] = useState('')
+  const dispatch = useDispatch()
 
-  const addTask = () => {
-    if (value.length > 0) {
-      setValue('')
-      handleAddTask(value)
+  const handleAddTask = async () => {
+    let data: Task;
+    if (selectedTaskGroup && selectedTaskGroup !== 'all') {
+      data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${selectedTaskGroup.id}`, 'POST', {
+        task: { name: value }
+      })
+    } else {
+      data = await fetchWithAuth(`http://localhost:3001/tasks`, 'POST', {
+        task: { name: value }
+      })
+    }
+
+    dispatch(addTask(data))
+  }
+
+  const handleAddSubTask = async () => {
+    if (selectedTaskId) {
+      const data = await fetchWithAuth<Task>(`http://localhost:3001/tasks/${selectedTaskId}/sub_tasks`, 'POST', {
+        task: {
+          name: value
+        }
+      })
+
+      dispatch(addSubTask(data, selectedTaskId))
+    }
+  }
+
+  const currentRenderedInput = () => {
+    if (selectedTaskId) {
+      return (
+        <div>
+          <Input
+            value={value}
+            onChange={e => setValue(e.target.value)}
+            onPressEnter={handleAddSubTask}
+            placeholder="Enter New Sub Task Name"
+          />
+          <Button
+            type="primary"
+            onClick={handleAddSubTask}
+          >
+              Add Sub Task
+          </Button>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <Input
+            value={value}
+            onChange={e => setValue(e.target.value)}
+            onPressEnter={handleAddTask}
+            placeholder="Enter New Task Name"
+          />
+          <Button
+            type="primary"
+            onClick={handleAddTask}
+          >
+              Add Task
+          </Button>
+        </div>
+      )
     }
   }
 
   return (
     <div className="tasks-form">
-      <div>
-        <Input
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          onPressEnter={addTask}
-          placeholder="Enter new task name"
-        />
-        <Button
-          loading={loading}
-          type="primary"
-          onClick={addTask}
-        >
-            Create
-        </Button>
-      </div>
+      {currentRenderedInput()}
       <div className="tasks-form-right">
         { selectedTaskGroup !== 'all'
         ? (
