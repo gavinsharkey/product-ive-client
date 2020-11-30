@@ -1,6 +1,7 @@
 import React from 'react'
 import { Typography } from 'antd'
-import { Task } from '../../../types/tasksTypes'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../reducers/rootReducer'
 import { SelectedTaskIdType } from './TasksContent'
 import ThemedSkeleton from '../../ThemedSkeleton'
 import ParentTaskItem from './ParentTaskItem'
@@ -9,16 +10,13 @@ import './TasksContainer.css'
 const { Title } = Typography
 
 interface TasksContainerProps {
-  tasks: Task[]
   loading: boolean
   selectedTaskId: SelectedTaskIdType
-  handleSetCompleted: (id: number, completed: boolean) => void
-  handleEditName: (id: number, value: string) => void
-  handleDeleteTask: (id: number) => void
   handleSelectTask: (id: SelectedTaskIdType) => void
 }
 
-const TasksContainer: React.FC<TasksContainerProps> = ({ tasks, loading, selectedTaskId, handleSetCompleted, handleDeleteTask, handleEditName, handleSelectTask }) => {
+const TasksContainer: React.FC<TasksContainerProps> = ({ loading, selectedTaskId, handleSelectTask }) => {
+  const tasks = useSelector((state: RootState) => state.tasks)
 
   const renderedTasks = () => {
     if (tasks.length === 0) {
@@ -32,9 +30,6 @@ const TasksContainer: React.FC<TasksContainerProps> = ({ tasks, loading, selecte
         key={task.id}
         task={task}
         isSelected={isSelected}
-        handleSetCompleted={handleSetCompleted}
-        handleEditName={handleEditName}
-        handleDeleteTask={handleDeleteTask}
         handleSelectTask={handleSelectTask}
       />
     })
