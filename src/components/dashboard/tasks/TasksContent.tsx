@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Typography, Divider } from 'antd'
-import './TasksContent.css'
 import { Task } from '../../../types/tasksTypes'
-import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
 import { TaskGroup } from '../../../types/taskGroupTypes'
+import { fetchWithAuth } from '../../../concerns/fetchWithAuth'
+import { useDispatch } from 'react-redux'
+import {
+  setTasks,
+  addTask,
+} from '../../../actions/tasksActions'
 import TasksContainer from './TasksContainer'
 import TasksForm from './TasksForm'
+import './TasksContent.css'
 
 const { Title } = Typography
 
@@ -17,9 +22,9 @@ interface TasksContentProps {
 }
 
 const TasksContent: React.FC<TasksContentProps> = ({ taskGroup, handleDeleteTaskGroup }) => {
-  const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedTaskId, setSelectedTaskId] = useState<SelectedTaskIdType>(null)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     (async () => {
@@ -33,7 +38,7 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup, handleDeleteTask
           data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${taskGroup.id}`)
         }
 
-        setTasks(data)
+        dispatch(setTasks(data))
         setLoading(false)
       }
     })()
@@ -41,57 +46,6 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup, handleDeleteTask
 
   const handleSelectTask = (id: SelectedTaskIdType): void => {
     setSelectedTaskId(id)
-  }
-
-  const handleAddTask = async (name: string) => {
-    setLoading(true)
-
-    let data: Task;
-    if (taskGroup && taskGroup !== 'all') {
-      data = await fetchWithAuth(`http://localhost:3001/tasks?taskable_id=${taskGroup.id}`, 'POST', {
-        task: { name }
-      })
-    } else {
-      data = await fetchWithAuth(`http://localhost:3001/tasks`, 'POST', {
-        task: { name }
-      })
-    }
-
-    setTasks(prevTasks => {
-      return [data, ...prevTasks]
-    })
-    setLoading(false)
-  }
-
-
-  const handleSetCompleted = (id: number, completed: boolean): void => {
-    setTasks((prevTasks) => {
-      return prevTasks.map(task => {
-        if (task.id === id) {
-          return { ...task, completed: !completed }
-        } else {
-          return task
-        }
-      })
-    })
-  }
-
-  const handleEditName = (id: number, value: string): void => {
-    setTasks((prevTasks) => {
-      return prevTasks.map((task) => {
-        if (task.id === id) {
-          return { ...task, name: value }
-        } else {
-          return task
-        }
-      })
-    })
-  }
-
-  const handleDeleteTask = (id: number): void => {
-    setTasks((prevTasks) => {
-      return prevTasks.filter(task => task.id !== id)
-    })
   }
 
   const renderedTitle = () => {
@@ -106,21 +60,16 @@ const TasksContent: React.FC<TasksContentProps> = ({ taskGroup, handleDeleteTask
     <div className="tasks-content">
       {renderedTitle()}
       <TasksForm
-        loading={loading}
         selectedTaskGroup={taskGroup}
-        handleAddTask={handleAddTask}
+        selectedTaskId={selectedTaskId}
         handleDeleteTaskGroup={() => {
           return taskGroup && taskGroup !== 'all' ? handleDeleteTaskGroup(taskGroup) : null
         }}
       />
       <Divider />
       <TasksContainer
-        tasks={tasks}
         loading={loading}
         selectedTaskId={selectedTaskId}
-        handleSetCompleted={handleSetCompleted}
-        handleDeleteTask={handleDeleteTask}
-        handleEditName={handleEditName}
         handleSelectTask={handleSelectTask}
       />
     </div>
